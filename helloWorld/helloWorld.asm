@@ -1,5 +1,5 @@
 section .data
-    msg db 'Hello World!!', 0xA
+    msg db 'Hello World!!', 0xA,0xD
     tam equ $- msg
     msgB db 'Testando com 2 palavras!!', 0xA
     tamB equ $- msgB
