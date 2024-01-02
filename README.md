@@ -1,4 +1,4 @@
-# Assembly-NASM (EM)
+# Assembly-NASM (EN)
 This repository contains my projects and code written in assembly language using NASM. I am currently learning assembly programming and this repository serves as a place to store my code and share it with others.
 
 # Assembly-NASM (PT-BR)
