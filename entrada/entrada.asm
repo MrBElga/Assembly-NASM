@@ -12,6 +12,9 @@ segment .data
 section .data
     msg db "Digite seu nome:", LF, NULL
     tam equ $- msg
+    msgB db 'Bem vindo '
+    tamB equ $- msgB
+
 
 section .bss
     nome resb 1 
@@ -29,6 +32,18 @@ _start:
 
     MOV EAX, SYS_READ
     MOV EBX, STD_IN
+    MOV ECX, nome
+    MOV EDX, 0xA
+    int SYS_CALL
+
+    MOV EAX, SYS_WRITE
+    MOV EBX, STD_OUT
+    MOV ECX, msgB
+    MOV EDX, tamB
+    int SYS_CALL
+
+    MOV EAX, SYS_WRITE
+    MOV EBX, STD_OUT
     MOV ECX, nome
     MOV EDX, 0xA
     int SYS_CALL
