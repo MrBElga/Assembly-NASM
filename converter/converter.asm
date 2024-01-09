@@ -34,7 +34,7 @@ _start:
 
     STRING_to_Int:
         XOR EBX,EBX
-    .prox_digito
+    .prox_digito:
         MOVZX EAX, byte[esi];associacao de registradores 
         INC esi
         SUB al, '0'
@@ -59,6 +59,6 @@ _start:
         DEC esi
         MOV [esi],dl
         TEST EAX, EAX
-        JNZ prox_digito
+        JNZ .prox_digito
         RET
 
