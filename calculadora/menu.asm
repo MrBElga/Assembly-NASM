@@ -7,7 +7,7 @@ section .data
     opcao1 DB LF, '1. Adicionar', NULL
     opcao2 DB LF, '2. Subtrair', NULL
     opcao3 DB LF, '3. Multiplicar', NULL
-    opcao4 DB LF, '4. Dovodor', NULL
+    opcao4 DB LF, '4. Dividir', NULL
     msgOpc DB LF, 'Opcao: ', NULL
     msgErro DB LF, 'Valor de Opcao Invalido', NULL
     p1 DB LF, 'Processo de Adicao', NULL
@@ -18,8 +18,8 @@ section .data
 
     section .bss
         opc RESB 1
-        num1 RESB 1
-        num2 RESB 1
+        num1 RESB 1 
+        num2 RESB 1 
 
     section .text
     
@@ -95,11 +95,67 @@ section .data
         MOV EAX, SYS_EXIT
         MOV EBX, RET_EXIT
         INT SYS_CALL
+    
 
+    converter_valor_num1:
+        LEA esi, [num1]
+        MOV ECX, 0x3
+        CALL STRING_to_Int
+        ADD EAX, 0x2
+        RET
+
+    converter_valor_num2:
+        LEA esi, [num2]
+        MOV ECX, 0x3
+        CALL STRING_to_Int
+        ADD EAX, 0x2
+        RET   
+    STRING_to_Int:
+        XOR EBX,EBX
+    .prox_digito:           
+        MOVZX EAX, byte[esi];associacao de registradores 
+        INC esi
+        SUB al, '0'
+        IMUL EBX, 0xA
+        ADD EBX, EAX ; EBX = EBX*10 + EAX
+        LOOP .prox_digito ;while
+        MOV EAX, EBX
+        RET
+    
+        ;interio para string
+        ;entrada: EAX
+        ;saida BUFFER (valor) TAM_BUFFER(EDX)
+    INT_to_String:
+        LEA esi, [BUFFER]
+        ADD esi, 0x9
+        MOV byte[esi], 0xA
+        MOV EBX, 0xA
+    .prox_digito:
+        XOR EDX, EDX
+        DIV EBX
+        ADD dl, '0'
+        DEC esi
+        MOV [esi],dl
+        TEST EAX, EAX
+        JNZ .prox_digito
+        RET
+
+     mostrar_valor:
+        CALL INT_to_String
+        CALL SaidaResultado
+        RET
     ;funcoes a serem realizadas   
     Adicionar:
         MOV ECX, p1
         CALL mostrarSaida
+        ;CALL converter_valor_num1
+        ;CALL mostrar_valor  
+        ;CALL converter_valor_num2
+        ;CALL mostrar_valor  
+        MOV EAX, [num1]
+        ADD [num2], EAX
+      
+        ;CALL mostrarSaida
         JMP saida
 
     Subtrair:
